@@ -1,6 +1,6 @@
 *.sln
 .vs/
-*/bin/
-*/obj/
-*/.vcxproj
-*/.vcxproj.user
+bin/
+obj/
+*/*.vcxproj
+*/*.vcxproj.user

@@ -14,8 +14,8 @@ project "Game"
     language "C++"
     cppdialect "C++17"
 
-    targetdir ("Game/bin/" .. outputdir)
-    objdir ("Game/obj/" .. outputdir)
+    targetdir ("bin/" .. outputdir)
+    objdir ("obj/" .. outputdir)
 
     files
     { 
@@ -25,14 +25,20 @@ project "Game"
 
     links
     {
+        "glfw3.lib",
         "opengl32.lib"
     }
 
     includedirs
     {
-        "Game/src"
+        "Game/src",
+        "Game/dependencies/include"
     }
 
+    libdirs
+    {
+        "Game/dependencies/lib"
+    }
 
     filter "configurations:Debug"
         defines { "DEBUG" }
