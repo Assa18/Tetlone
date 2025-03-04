@@ -9,13 +9,15 @@
 class Shader
 {
 public:
-	Shader(const char* vShaderSorcePath, const char* fShaderSourcePath);
+	Shader();
 	~Shader();
 
-	unsigned int getId() { return m_Id; }
+	void Initialize(const char* vShaderSorcePath, const char* fShaderSourcePath);
 
-	void bind();
-	void unBind();
+	unsigned int GetId() { return m_Id; }
+
+	void Bind();
+	void Unbind();
 
 	void SetBool(const std::string& name, bool value);
 	void SetInt(const std::string& name, int value);
@@ -29,5 +31,5 @@ public:
 private:
 	unsigned int m_Id;
 
-	bool compileShader(unsigned int& program);
+	bool CompileShader(unsigned int& program);
 };

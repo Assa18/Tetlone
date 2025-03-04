@@ -94,12 +94,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameRenderer.cpp" />
+    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\utils\Shader.cpp" />
+    <ClCompile Include="src\OpenGLObjects\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\utils\Shader.h" />
+    <ClInclude Include="src\GameRenderer.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\OpenGLObjects\Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

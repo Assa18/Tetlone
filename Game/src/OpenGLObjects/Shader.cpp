@@ -8,7 +8,17 @@
 #include <fstream>
 #include <sstream>
 
-Shader::Shader(const char* vShaderSourcePath, const char* fShaderSourcePath)
+Shader::Shader()
+	:m_Id(0)
+{
+}
+
+Shader::~Shader()
+{
+	glDeleteProgram(m_Id);
+}
+
+void Shader::Initialize(const char* vShaderSourcePath, const char* fShaderSourcePath)
 {
 	std::ifstream vSource(vShaderSourcePath);
 	std::ifstream fSource(fShaderSourcePath);
@@ -46,7 +56,7 @@ Shader::Shader(const char* vShaderSourcePath, const char* fShaderSourcePath)
 
 	vShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vShader, 1, &vShaderSource, nullptr);
-	if (!compileShader(vShader))
+	if (!CompileShader(vShader))
 	{
 		std::cout << "ERROR: failed to compile vertex shader!\n";
 		exit(1);
@@ -54,7 +64,7 @@ Shader::Shader(const char* vShaderSourcePath, const char* fShaderSourcePath)
 
 	fShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fShader, 1, &fShaderSource, nullptr);
-	if (!compileShader(fShader))
+	if (!CompileShader(fShader))
 	{
 		std::cout << "ERROR: failed to compile fragment shader!\n";
 		exit(1);
@@ -71,12 +81,8 @@ Shader::Shader(const char* vShaderSourcePath, const char* fShaderSourcePath)
 	glDeleteShader(fShader);
 }
 
-Shader::~Shader()
-{
-}
 
-
-bool Shader::compileShader(unsigned int& program)
+bool Shader::CompileShader(unsigned int& program)
 {
 	glCompileShader(program);
 
@@ -94,12 +100,12 @@ bool Shader::compileShader(unsigned int& program)
 	return true;
 }
 
-void Shader::bind()
+void Shader::Bind()
 {
 	glUseProgram(m_Id);
 }
 
-void Shader::unBind()
+void Shader::Unbind()
 {
 	glUseProgram(0);
 }
