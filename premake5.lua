@@ -20,7 +20,10 @@ project "Game"
     files
     { 
         "Game/src/**.h", 
-        "Game/src/**.cpp"
+        "Game/src/**.cpp",
+        "Game/src/glad.c",
+        "Game/dependencies/include/stb_image/stb_image.h",
+        "Game/dependencies/include/stb_image/stb_image.cpp"
     }
 
     links

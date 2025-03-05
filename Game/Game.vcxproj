@@ -94,16 +94,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\GameRenderer.cpp" />
-    <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\OpenGLObjects\Shader.cpp" />
+    <ClInclude Include="dependencies\include\stb_image\stb_image.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\GameRenderer.h" />
+    <ClInclude Include="src\OpenGLObjects\Shader.h" />
+    <ClInclude Include="src\OpenGLObjects\Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GameRenderer.h" />
-    <ClInclude Include="src\Game.h" />
-    <ClInclude Include="src\OpenGLObjects\Shader.h" />
+    <ClCompile Include="dependencies\include\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GameRenderer.cpp" />
+    <ClCompile Include="src\OpenGLObjects\Shader.cpp" />
+    <ClCompile Include="src\OpenGLObjects\Texture.cpp" />
+    <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
