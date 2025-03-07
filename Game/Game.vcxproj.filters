@@ -33,6 +33,14 @@
     <ClInclude Include="src\OpenGLObjects\Texture.h">
       <Filter>src\OpenGLObjects</Filter>
     </ClInclude>
+    <ClInclude Include="src\OpenGLObjects\Camera.h" />
+    <ClInclude Include="src\OpenGLObjects\Camera2D.h" />
+    <ClInclude Include="src\Application\Window.h" />
+    <ClInclude Include="src\Application\WindowFactory.h" />
+    <ClInclude Include="src\Application\WindowsWindow.h" />
+    <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\Application\WindowsKeyCodes.h" />
+    <ClInclude Include="src\Application\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dependencies\include\stb_image\stb_image.cpp">
@@ -56,5 +64,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\OpenGLObjects\Camera2D.cpp" />
+    <ClCompile Include="src\Application\WindowsWindow.cpp" />
   </ItemGroup>
 </Project>

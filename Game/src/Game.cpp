@@ -1,5 +1,8 @@
 #include "Game.h"
 
+//might be replaced with a factory solution
+#include "Application/WindowsInput.h"
+
 #include <iostream>
 
 Game::Game()
@@ -13,24 +16,12 @@ Game::~Game()
 {
 }
 
+Game* Game::s_Instance = nullptr;
 void Game::Initialize()
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	s_Instance = this;
 
-	m_Window = glfwCreateWindow(m_Width, m_Height, "Tetlone", nullptr, nullptr);
-	if (m_Window == nullptr)
-	{
-		std::cout << "ERROR: failed to crate grfw window!\n";
-		glfwTerminate();
-		exit(1);
-	}
-
-	glfwMakeContextCurrent(m_Window);
-	glfwSetFramebufferSizeCallback(m_Window, framebufferSizeCallback);
-
+	m_Window = Windowfactory::GetWindow(m_Width, m_Height);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "ERROR: failed to load glad!\n";
@@ -42,30 +33,23 @@ void Game::Initialize()
 
 void Game::Run()
 {
-	while (!glfwWindowShouldClose(m_Window))
+	while (!m_Window->IsClosed())
 	{
 		Update();
 		
 		m_Renderer.Draw();
 
-		glfwSwapBuffers(m_Window);
-		glfwPollEvents();
+		m_Window->Update();
 	}
 }
 
 void Game::Cleanup()
 {
-	glfwDestroyWindow(m_Window);
-	glfwTerminate();
+	delete m_Window;
 }
 
 void Game::Update()
 {
-	if (glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(m_Window, true);
-}
-
-void framebufferSizeCallback(GLFWwindow* window, int32_t width, int32_t height)
-{
-	glViewport(0, 0, width, height);
+	if (Input::IsKeyPressed(GAME_KEY_ESCAPE))
+		m_Window->SetClosed(true);
 }
