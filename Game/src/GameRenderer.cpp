@@ -14,7 +14,8 @@ static unsigned int VAO = 0, VBO = 0, EBO = 0;
 
 void GameRenderer::Initialize()
 {
-	m_Shader.Initialize("res/shaders/vertex_transform.txt", "res/shaders/fragment_transform.txt");
+	m_Shader.Initialize("res/shaders/vertex_scene.glsl", "res/shaders/fragment_scene.glsl");
+
 
 	float vertexData[] = {
 		-0.5f, -0.5f, 0.0f,
@@ -48,7 +49,6 @@ void GameRenderer::Initialize()
 	/*model = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::scale(model, glm::vec3(2.0f, 1.0f, 0.0f));*/
-
 	m_Shader.SetMat4("model", model);
 }
 
@@ -56,6 +56,9 @@ void GameRenderer::Draw()
 {
 	glClearColor(0.5, 0.5, 0.5, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+
+	m_Shader.SetMat4("viewproj", m_GameData.Camera.GetViewProjMatrix());
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

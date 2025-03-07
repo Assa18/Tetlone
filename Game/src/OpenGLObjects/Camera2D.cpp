@@ -1,9 +1,11 @@
 #include "Camera2D.h"
 
-#include <GLFW/glfw3.h>
+#include <Application/WindowsInput.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include <iostream>
 
 Camera2D::Camera2D()
 	:Camera()
@@ -21,7 +23,19 @@ Camera2D::Camera2D(const glm::mat4& projection, float aspectRatio)
 
 void Camera2D::OnUpdate(float deltaTime)
 {
-	//if (glfwGetKey(GLFW_KEY_UP))
+	if (Input::IsKeyPressed(GAME_KEY_UP))
+	{
+		m_ZoomLevel += 0.01;
+		m_ProjMatrix = glm::ortho(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	}
+
+	if (Input::IsKeyPressed(GAME_KEY_DOWN))
+	{
+		m_ZoomLevel -= 0.01;
+		m_ProjMatrix = glm::ortho(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	}
+
+	m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
 }
 
 void Camera2D::OnResize(float width, float height)

@@ -17,7 +17,7 @@ void WindowsWindow::Initialize()
 	m_Window = glfwCreateWindow(m_Width, m_Height, "Tetlone", nullptr, nullptr);
 	if (m_Window == nullptr)
 	{
-		std::cout << "ERROR: failed to crate grfw window!\n";
+		std::cout << "ERROR: failed to crate glfw window!\n";
 		glfwTerminate();
 		exit(1);
 	}

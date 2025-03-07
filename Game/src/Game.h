@@ -25,6 +25,7 @@ private:
 	uint32_t m_Width, m_Height;
 
 	GameRenderer m_Renderer;
+	GameData* m_GameData;
 
 	static Game* s_Instance;
 };

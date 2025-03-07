@@ -29,6 +29,8 @@ void Game::Initialize()
 	}
 
 	m_Renderer.Initialize();
+	m_GameData = m_Renderer.GetGameData();
+	m_GameData->Camera.OnResize((float)m_Width, (float)m_Height);
 }
 
 void Game::Run()
@@ -38,6 +40,7 @@ void Game::Run()
 		Update();
 		
 		m_Renderer.Draw();
+		m_GameData->Update();
 
 		m_Window->Update();
 	}
