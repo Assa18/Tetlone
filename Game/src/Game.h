@@ -4,6 +4,7 @@
 
 #include "Application/WindowFactory.h"
 #include "GameRenderer.h"
+#include "GameObjects/GameTile.h"
 
 class Game
 {
@@ -18,6 +19,7 @@ public:
 	void Cleanup();
 
 	inline static Window* GetWindow() { return s_Instance->m_Window; }
+	inline GameData* GetGameData() { return &m_GameData; }
 private:
 	void Update();
 
@@ -25,7 +27,7 @@ private:
 	uint32_t m_Width, m_Height;
 
 	GameRenderer m_Renderer;
-	GameData* m_GameData;
+	GameData m_GameData;
 
 	static Game* s_Instance;
 };

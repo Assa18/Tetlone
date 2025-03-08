@@ -9,27 +9,45 @@
 
 #include "GameObjects/GameTile.h"
 
-#include <unordered_map>
+#include <map>
+
+struct Vertex
+{
+	glm::vec3 pos;
+	glm::vec4 color;
+	glm::vec2 texCoords;
+	float texIndex;
+};
+
+struct RenderData
+{
+	uint32_t maxTileCount;
+	uint32_t maxVertexCount;
+	uint32_t maxIndexCount;
+
+	uint32_t* indices;
+	uint32_t indicesCount;
+
+	Vertex* vertices;
+	Vertex* vertexIndexPtr;
+
+	unsigned int VAO = 0, VBO = 0, EBO = 0;
+
+	uint32_t textureSlots[16];
+	uint32_t whiteTexture;
+};
 
 struct GameData
 {
 	Camera2D Camera;
 
-	//std::unordered_map<std::pair<int, int>, GameTile> m_Tiles;
+	std::map<std::pair<int, int>, GameTile> m_Tiles;
 
 
 	void Update()
 	{
 		Camera.OnUpdate(0.01f);
 	}
-};
-
-struct Vertex
-{
-	glm::vec3 pos;
-	glm::vec3 color;
-	glm::vec2 texCoord;
-	float texIndex;
 };
 
 class GameRenderer
@@ -39,16 +57,16 @@ public:
 	~GameRenderer();
 
 	void Initialize();
-	void Draw();
 
 	void Destroy();
 
-	inline GameData* GetGameData() { return &m_GameData; }
+	void BeginRender();
+	void EndRender();
+
+	void Quad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
+	void Quad(const glm::vec2& pos, const glm::vec2& size, int texId);
 private:
 	Shader m_Shader;
-	GameData m_GameData;
-
-	Vertex* m_Vertices;
-	uint32_t m_VertexIndex;
-	uint32_t m_MaxTileCount;
+	
+	void Draw();
 };
