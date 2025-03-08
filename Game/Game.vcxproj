@@ -96,6 +96,7 @@
   <ItemGroup>
     <ClInclude Include="src\Application\WindowsInput.h" />
     <ClInclude Include="src\Application\WindowsKeyCodes.h" />
+    <ClInclude Include="src\GameObjects\GameTile.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Application\Window.h" />
     <ClInclude Include="src\Application\WindowFactory.h" />

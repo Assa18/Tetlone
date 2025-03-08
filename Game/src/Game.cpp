@@ -7,8 +7,8 @@
 
 Game::Game()
 {
-	m_Height = 720;
-	m_Width = 1280;
+	m_Height = 800;
+	m_Width = 800;
 	m_Window = nullptr;
 }
 
@@ -22,6 +22,7 @@ void Game::Initialize()
 	s_Instance = this;
 
 	m_Window = Windowfactory::GetWindow(m_Width, m_Height);
+
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "ERROR: failed to load glad!\n";
@@ -30,7 +31,6 @@ void Game::Initialize()
 
 	m_Renderer.Initialize();
 	m_GameData = m_Renderer.GetGameData();
-	m_GameData->Camera.OnResize((float)m_Width, (float)m_Height);
 }
 
 void Game::Run()
@@ -48,6 +48,7 @@ void Game::Run()
 
 void Game::Cleanup()
 {
+	m_Renderer.Destroy();
 	delete m_Window;
 }
 

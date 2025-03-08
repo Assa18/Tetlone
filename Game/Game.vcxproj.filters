@@ -41,6 +41,7 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Application\WindowsKeyCodes.h" />
     <ClInclude Include="src\Application\WindowsInput.h" />
+    <ClInclude Include="src\GameObjects\GameTile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dependencies\include\stb_image\stb_image.cpp">
