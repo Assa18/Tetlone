@@ -27,7 +27,6 @@ void Camera2D::OnUpdate(float deltaTime)
 	{
 		m_ZoomLevel += 0.01;
 		m_ProjMatrix = glm::ortho(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
-		std::cout << "valami valtozott\n";
 	}
 
 	if (Input::IsKeyPressed(GAME_KEY_DOWN))
@@ -45,7 +44,7 @@ void Camera2D::OnResize(float width, float height)
 	m_ProjMatrix = glm::ortho(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 }
 
-const glm::mat4& Camera2D::GetViewProjMatrix()
+const glm::mat4& Camera2D::GetViewProjMatrix() const
 {
 	return m_ProjMatrix;
 }

@@ -61,12 +61,10 @@ public:
 	void Destroy();
 
 	void BeginRender();
-	void EndRender();
+	void Draw(const Camera2D& cam);
 
 	void Quad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
 	void Quad(const glm::vec2& pos, const glm::vec2& size, int texId);
 private:
 	Shader m_Shader;
-	
-	void Draw();
 };

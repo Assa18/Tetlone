@@ -11,9 +11,9 @@ public:
 	void OnUpdate(float deltaTime) override;
 	void OnResize(float width, float height) override;
 
-	const glm::mat4& GetViewProjMatrix() override;
+	const glm::mat4& GetViewProjMatrix() const override;
 private:
 	float m_AspectRatio;
-	float m_ZoomLevel;
+	float m_ZoomLevel = 1.0f;
 };
 

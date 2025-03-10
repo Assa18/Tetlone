@@ -45,7 +45,7 @@ void Game::Run()
 		m_Renderer.Quad(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		m_Renderer.Quad(glm::vec2(-0.5f, -0.5f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
-		m_Renderer.EndRender();
+		m_Renderer.Draw(m_GameData.Camera);
 
 		m_Window->Update();
 	}

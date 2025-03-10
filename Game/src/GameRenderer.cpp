@@ -3,8 +3,6 @@
 
 static RenderData s_RenderData;
 
-static GameData s_GameData;
-
 GameRenderer::GameRenderer()
 {
 	s_RenderData.maxTileCount = 500;
@@ -89,19 +87,14 @@ void GameRenderer::BeginRender()
 	s_RenderData.vertexIndexPtr = s_RenderData.vertices;
 }
 
-void GameRenderer::EndRender()
-{
-	Draw();
-}
-
-void GameRenderer::Draw()
+void GameRenderer::Draw(const Camera2D& cam)
 {
 	glClearColor(0.5, 0.5, 0.5, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	GLsizeiptr size = (uint8_t*)s_RenderData.vertexIndexPtr - (uint8_t*)s_RenderData.vertices;
 
-	m_Shader.SetMat4("viewproj", s_GameData.Camera.GetViewProjMatrix());
+	m_Shader.SetMat4("viewproj", cam.GetViewProjMatrix());
 	glBufferSubData(GL_ARRAY_BUFFER, 0, size, s_RenderData.vertices);
 
 
