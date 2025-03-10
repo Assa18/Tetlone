@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 #include "OpenGLObjects/Shader.h"
+#include "OpenGLObjects/Texture.h"
 #include "OpenGlObjects/Camera2D.h"
 
 #include "GameObjects/GameTile.h"
@@ -31,7 +32,7 @@ struct RenderData
 	Vertex* vertices;
 	Vertex* vertexIndexPtr;
 
-	unsigned int VAO = 0, VBO = 0, EBO = 0;
+	uint32_t VAO = 0, VBO = 0, EBO = 0;
 
 	uint32_t textureSlots[16];
 	uint32_t whiteTexture;
@@ -67,4 +68,6 @@ public:
 	void Quad(const glm::vec2& pos, const glm::vec2& size, int texId);
 private:
 	Shader m_Shader;
+
+	std::map<std::string, Texture> m_Textures;
 };

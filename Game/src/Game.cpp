@@ -42,8 +42,13 @@ void Game::Run()
 
 		m_Renderer.BeginRender();
 
-		m_Renderer.Quad(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-		m_Renderer.Quad(glm::vec2(-0.5f, -0.5f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		for (int i = -5; i < 5; i++)
+		{
+			for (int j = -10; j < 10; j++)
+			{
+				m_Renderer.Quad(glm::vec2(i * 0.2f, j * 0.2f), glm::vec2(0.2f, 0.2f), (std::abs(i) + std::abs(j))%2+1);
+			}
+		}
 
 		m_Renderer.Draw(m_GameData.Camera);
 

@@ -24,6 +24,9 @@ void Texture::Unbind() const
 
 void Texture::Load(const std::string& path, TextureData& data)
 {
+	m_Index = data.slotIndex;
+
+
 	glGenTextures(1, &m_ID);
 	glBindTexture(GL_TEXTURE_2D, m_ID);
 

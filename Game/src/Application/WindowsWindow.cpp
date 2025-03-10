@@ -53,3 +53,10 @@ void* WindowsWindow::GetNativeWindow()
 {
 	return m_Window;
 }
+
+
+WindowsWindow::~WindowsWindow()
+{
+	glfwDestroyWindow(m_Window);
+	glfwTerminate();
+}

@@ -19,6 +19,21 @@ void GameRenderer::Initialize()
 {
 	m_Shader.Initialize("res/shaders/vertex_scene.glsl", "res/shaders/fragment_scene.glsl");
 
+	TextureData texData;
+	texData.minFilter = GL_REPEAT;
+	texData.magFilter = GL_REPEAT;
+	texData.wrapS = GL_LINEAR;
+	texData.wrapT = GL_LINEAR;
+	texData.slotIndex = 1;
+
+	m_Textures["gergoo"].Load("res/textures/gergo.jpg", texData);
+
+	texData.slotIndex = 2;
+	m_Textures["krizbi"].Load("res/textures/mekdolenc2.jpg", texData);
+
+	glBindTextureUnit(m_Textures["gergoo"].GetIndex(), m_Textures["gergoo"].GetID());
+	glBindTextureUnit(m_Textures["krizbi"].GetIndex(), m_Textures["krizbi"].GetID());
+
 	s_RenderData.vertices = new Vertex[s_RenderData.maxVertexCount];
 	s_RenderData.indices = new uint32_t[s_RenderData.maxIndexCount];
 

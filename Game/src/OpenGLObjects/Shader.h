@@ -14,7 +14,7 @@ public:
 
 	void Initialize(const char* vShaderSorcePath, const char* fShaderSourcePath);
 
-	unsigned int GetId() { return m_Id; }
+	uint32_t GetId() { return m_Id; }
 
 	void Bind();
 	void Unbind();
@@ -29,7 +29,7 @@ public:
 
 	void SetMat4(const std::string& name, glm::mat4 matrix);
 private:
-	unsigned int m_Id;
+	uint32_t m_Id;
 
-	bool CompileShader(unsigned int& program);
+	bool CompileShader(uint32_t& program);
 };

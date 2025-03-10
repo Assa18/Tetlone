@@ -9,7 +9,7 @@ class WindowsWindow : public Window
 {
 public:
 	WindowsWindow()
-		:Window()
+		:Window(), m_Window(nullptr)
 	{
 	}
 
@@ -18,6 +18,8 @@ public:
 	{
 		Initialize();
 	}
+
+	~WindowsWindow();
 
 	void Initialize() override;
 	void Update() override;

@@ -52,7 +52,7 @@ void Shader::Initialize(const char* vShaderSourcePath, const char* fShaderSource
 	vSource.close();
 	fSource.close();
 
-	unsigned int vShader = 0, fShader = 0;
+	uint32_t vShader = 0, fShader = 0;
 
 	vShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vShader, 1, &vShaderSource, nullptr);
@@ -82,7 +82,7 @@ void Shader::Initialize(const char* vShaderSourcePath, const char* fShaderSource
 }
 
 
-bool Shader::CompileShader(unsigned int& program)
+bool Shader::CompileShader(uint32_t& program)
 {
 	glCompileShader(program);
 
