@@ -94,6 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\OpenGLObjects\FrameBuffer.h" />
     <ClInclude Include="src\Application\WindowsInput.h" />
     <ClInclude Include="src\Application\WindowsKeyCodes.h" />
     <ClInclude Include="src\GameObjects\GameTile.h" />
@@ -110,6 +111,7 @@
     <ClInclude Include="src\Application\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OpenGLObjects\FrameBuffer.cpp" />
     <ClCompile Include="src\OpenGLObjects\Camera2D.cpp" />
     <ClCompile Include="dependencies\include\stb_image\stb_image.cpp" />
     <ClCompile Include="src\Game.cpp" />

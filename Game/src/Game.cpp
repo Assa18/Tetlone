@@ -37,7 +37,7 @@ void Game::Run()
 	while (!m_Window->IsClosed())
 	{
 		Update();
-		
+
 		m_GameData.Update();
 
 		m_Renderer.BeginRender();

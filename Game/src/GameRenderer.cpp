@@ -18,6 +18,7 @@ GameRenderer::~GameRenderer()
 void GameRenderer::Initialize()
 {
 	m_Shader.Initialize("res/shaders/vertex_scene.glsl", "res/shaders/fragment_scene.glsl");
+	m_Shader.Initialize("res/shaders/vertex_screen.glsl", "res/shaders/fragment_screen.glsl");
 
 	TextureData texData;
 	texData.minFilter = GL_REPEAT;

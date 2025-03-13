@@ -68,6 +68,7 @@ public:
 	void Quad(const glm::vec2& pos, const glm::vec2& size, int texId);
 private:
 	Shader m_Shader;
+	Shader m_ScreenShader;
 
 	std::map<std::string, Texture> m_Textures;
 };
