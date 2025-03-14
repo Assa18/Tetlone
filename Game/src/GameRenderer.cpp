@@ -216,5 +216,5 @@ void GameRenderer::Destroy()
 
 void GameRenderer::OnResize(uint32_t width, uint32_t height)
 {
-	std::cout << "Game renderer resized! " << width << ' ' << height << '\n';
+	m_FrameBuffer.Resize(width, height);
 }

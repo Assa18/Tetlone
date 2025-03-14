@@ -57,7 +57,24 @@ FrameBuffer::~FrameBuffer()
 
 void FrameBuffer::Resize(int32_t width, int32_t height)
 {
+    Unbind();
+    glDeleteFramebuffers(1, &m_ID);
 
+
+    // framebuffer initialization code
+    glGenFramebuffers(1, &m_ID);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
+
+    glGenTextures(1, &m_TextureID);
+    glBindTexture(GL_TEXTURE_2D, m_TextureID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_TextureID, 0);
+
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!\n";
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void FrameBuffer::BindVAO()
