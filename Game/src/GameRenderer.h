@@ -7,6 +7,7 @@
 #include "OpenGLObjects/Shader.h"
 #include "OpenGLObjects/Texture.h"
 #include "OpenGlObjects/Camera2D.h"
+#include "OpenGLObjects/FrameBuffer.h"
 
 #include "GameObjects/GameTile.h"
 
@@ -58,6 +59,7 @@ public:
 	~GameRenderer();
 
 	void Initialize();
+	void OnResize(uint32_t width, uint32_t height);
 
 	void Destroy();
 
@@ -69,6 +71,8 @@ public:
 private:
 	Shader m_Shader;
 	Shader m_ScreenShader;
+
+	FrameBuffer m_FrameBuffer;
 
 	std::map<std::string, Texture> m_Textures;
 };

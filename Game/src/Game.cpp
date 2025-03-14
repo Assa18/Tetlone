@@ -67,3 +67,8 @@ void Game::Update()
 	if (Input::IsKeyPressed(GAME_KEY_ESCAPE))
 		m_Window->SetClosed(true);
 }
+
+void Game::Resize(uint32_t width, uint32_t height)
+{
+	m_Renderer.OnResize(width, height);
+}

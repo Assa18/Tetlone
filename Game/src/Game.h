@@ -13,11 +13,14 @@ public:
 	~Game();
 
 	void Initialize();
+	void Resize(uint32_t width, uint32_t height);
+
 
 	void Run();
 
 	void Cleanup();
 
+	inline static Game* GetInstance() { return s_Instance; }
 	inline static Window* GetWindow() { return s_Instance->m_Window; }
 	inline GameData* GetGameData() { return &m_GameData; }
 private:

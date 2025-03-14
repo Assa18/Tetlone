@@ -1,5 +1,6 @@
 #include "GameRenderer.h"
 
+#include <iostream>
 
 static RenderData s_RenderData;
 
@@ -18,7 +19,9 @@ GameRenderer::~GameRenderer()
 void GameRenderer::Initialize()
 {
 	m_Shader.Initialize("res/shaders/vertex_scene.glsl", "res/shaders/fragment_scene.glsl");
-	m_Shader.Initialize("res/shaders/vertex_screen.glsl", "res/shaders/fragment_screen.glsl");
+	m_ScreenShader.Initialize("res/shaders/vertex_screen.glsl", "res/shaders/fragment_screen.glsl");
+
+	m_FrameBuffer.Create(800, 800);
 
 	TextureData texData;
 	texData.minFilter = GL_REPEAT;
@@ -93,6 +96,11 @@ void GameRenderer::Initialize()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, &color);
 
 	s_RenderData.textureSlots[0] = s_RenderData.whiteTexture;
+
+	m_ScreenShader.Bind();
+	m_ScreenShader.SetInt("screenTexture", 16);
+
+	m_Shader.Bind();
 }
 
 
@@ -105,6 +113,9 @@ void GameRenderer::BeginRender()
 
 void GameRenderer::Draw(const Camera2D& cam)
 {
+	m_FrameBuffer.Bind();
+	m_Shader.Bind();
+
 	glClearColor(0.5, 0.5, 0.5, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -113,9 +124,17 @@ void GameRenderer::Draw(const Camera2D& cam)
 	m_Shader.SetMat4("viewproj", cam.GetViewProjMatrix());
 	glBufferSubData(GL_ARRAY_BUFFER, 0, size, s_RenderData.vertices);
 
-
 	glBindVertexArray(s_RenderData.VAO);
 	glDrawElements(GL_TRIANGLES, s_RenderData.indicesCount, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	m_FrameBuffer.Unbind();
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	m_ScreenShader.Bind();
+	m_FrameBuffer.BindVAO();
+	glBindTextureUnit(16, m_FrameBuffer.GetTextureID());
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 void GameRenderer::Quad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
@@ -193,4 +212,9 @@ void GameRenderer::Destroy()
 	glDeleteVertexArrays(1, &s_RenderData.VAO);
 
 	delete[] s_RenderData.vertices;
+}
+
+void GameRenderer::OnResize(uint32_t width, uint32_t height)
+{
+	std::cout << "Game renderer resized! " << width << ' ' << height << '\n';
 }

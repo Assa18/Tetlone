@@ -1,10 +1,12 @@
 #include "WindowsWindow.h"
+#include "Game.h"
 
 #include <iostream>
 
 void framebufferSizeCallback(GLFWwindow* window, int32_t width, int32_t height)
 {
 	glViewport(0, 0, width, height);
+	Game::GetInstance()->Resize(width, height);
 }
 
 void WindowsWindow::Initialize()
