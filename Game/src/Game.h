@@ -6,6 +6,22 @@
 #include "GameRenderer.h"
 #include "GameObjects/GameTile.h"
 
+#include <vector>
+
+struct GameData
+{
+	Camera2D Camera;
+
+	std::map<std::pair<int, int>, GameTile> Tiles;
+
+	std::vector<GameTile> MovingTiles;
+
+	void Update()
+	{
+		Camera.OnUpdate(0.01f);
+	}
+};
+
 class Game
 {
 public:
@@ -25,14 +41,22 @@ public:
 	inline GameData* GetGameData() { return &m_GameData; }
 private:
 	void Update();
+	void CheckCollision();
+	void SpawnNext();
+
+	void Move(int dir);
 
 	Window* m_Window;
 	uint32_t m_Width, m_Height;
+	float m_Speed = 1.0f;
+	float m_DeltaTime, m_LastFrame;
 
 	GameRenderer m_Renderer;
 	GameData m_GameData;
 
 	static Game* s_Instance;
+
+	glm::vec2 m_TileSize = glm::vec2(0.19f, 0.19f);
 };
 
 

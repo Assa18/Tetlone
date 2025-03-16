@@ -35,8 +35,12 @@ void GameRenderer::Initialize()
 	texData.slotIndex = 2;
 	m_Textures["krizbi"].Load("res/textures/mekdolenc2.jpg", texData);
 
+	texData.slotIndex = 3;
+	m_Textures["background"].Load("res/textures/background.jpg", texData);
+
 	glBindTextureUnit(m_Textures["gergoo"].GetIndex(), m_Textures["gergoo"].GetID());
 	glBindTextureUnit(m_Textures["krizbi"].GetIndex(), m_Textures["krizbi"].GetID());
+	glBindTextureUnit(m_Textures["background"].GetIndex(), m_Textures["background"].GetID());
 
 	s_RenderData.vertices = new Vertex[s_RenderData.maxVertexCount];
 	s_RenderData.indices = new uint32_t[s_RenderData.maxIndexCount];

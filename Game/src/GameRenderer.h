@@ -39,19 +39,6 @@ struct RenderData
 	uint32_t whiteTexture;
 };
 
-struct GameData
-{
-	Camera2D Camera;
-
-	std::map<std::pair<int, int>, GameTile> m_Tiles;
-
-
-	void Update()
-	{
-		Camera.OnUpdate(0.01f);
-	}
-};
-
 class GameRenderer
 {
 public:

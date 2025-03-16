@@ -1,16 +1,21 @@
 #pragma once
 #include <cstdint>
 
+#include <glm/glm.hpp>
+
 struct GameTile
 {
 	GameTile()
 	{
-		IsMoving = true;
-		x = 9;
-		y = -1;
+		X = 9;
+		Y = -1;
 	}
 
-	bool IsMoving;
+	GameTile(int32_t x, int32_t y, const glm::vec4& color)
+		:X(x), Y(y), Color(color)
+	{
+	}
 
-	int32_t x, y;
+	float X, Y;
+	glm::vec4 Color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 };
