@@ -144,29 +144,30 @@ void GameRenderer::Draw(const Camera2D& cam)
 void GameRenderer::Quad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
 {
 	float texIndex = 0.0f;
+	glm::vec2 posReal = glm::vec2(pos.x - 1, pos.y - 2);
 
-	s_RenderData.vertexIndexPtr->pos = glm::vec3(pos, 0.0f);
+	s_RenderData.vertexIndexPtr->pos = glm::vec3(posReal, 0.0f);
 	s_RenderData.vertexIndexPtr->color = color;
 	s_RenderData.vertexIndexPtr->texCoords = glm::vec2(0.0f, 0.0f);
 	s_RenderData.vertexIndexPtr->texIndex = texIndex;
 	s_RenderData.vertexIndexPtr++;
 
 
-	s_RenderData.vertexIndexPtr->pos = glm::vec3(pos.x + size.x, pos.y, 0.0f);
+	s_RenderData.vertexIndexPtr->pos = glm::vec3(posReal.x + size.x, posReal.y, 0.0f);
 	s_RenderData.vertexIndexPtr->color = color;
 	s_RenderData.vertexIndexPtr->texCoords = glm::vec2(0.0f, 0.0f);
 	s_RenderData.vertexIndexPtr->texIndex = texIndex;
 	s_RenderData.vertexIndexPtr++;
 
 
-	s_RenderData.vertexIndexPtr->pos = glm::vec3(pos.x + size.x, pos.y + size.y, 0.0f);
+	s_RenderData.vertexIndexPtr->pos = glm::vec3(posReal.x + size.x, posReal.y + size.y, 0.0f);
 	s_RenderData.vertexIndexPtr->color = color;
 	s_RenderData.vertexIndexPtr->texCoords = glm::vec2(0.0f, 0.0f);
 	s_RenderData.vertexIndexPtr->texIndex = texIndex;
 	s_RenderData.vertexIndexPtr++;
 
 
-	s_RenderData.vertexIndexPtr->pos = glm::vec3(pos.x, pos.y + size.y, 0.0f);
+	s_RenderData.vertexIndexPtr->pos = glm::vec3(posReal.x, posReal.y + size.y, 0.0f);
 	s_RenderData.vertexIndexPtr->color = color;
 	s_RenderData.vertexIndexPtr->texCoords = glm::vec2(0.0f, 0.0f);
 	s_RenderData.vertexIndexPtr->texIndex = texIndex;
@@ -177,30 +178,31 @@ void GameRenderer::Quad(const glm::vec2& pos, const glm::vec2& size, const glm::
 
 void GameRenderer::Quad(const glm::vec2& pos, const glm::vec2& size, int texId)
 {
+	glm::vec2 posReal = glm::vec2(pos.x - 1, pos.y - 2);
 	glm::vec4 whiteColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	s_RenderData.vertexIndexPtr->pos = glm::vec3(pos, 0.0f);
+	s_RenderData.vertexIndexPtr->pos = glm::vec3(posReal, 0.0f);
 	s_RenderData.vertexIndexPtr->color = whiteColor;
 	s_RenderData.vertexIndexPtr->texCoords = glm::vec2(0.0f, 0.0f);
 	s_RenderData.vertexIndexPtr->texIndex = texId;
 	s_RenderData.vertexIndexPtr++;
 
 
-	s_RenderData.vertexIndexPtr->pos = glm::vec3(pos.x + size.x, pos.y, 0.0f);
+	s_RenderData.vertexIndexPtr->pos = glm::vec3(posReal.x + size.x, posReal.y, 0.0f);
 	s_RenderData.vertexIndexPtr->color = whiteColor;
 	s_RenderData.vertexIndexPtr->texCoords = glm::vec2(1.0f, 0.0f);
 	s_RenderData.vertexIndexPtr->texIndex = texId;
 	s_RenderData.vertexIndexPtr++;
 
 
-	s_RenderData.vertexIndexPtr->pos = glm::vec3(pos.x + size.x, pos.y + size.y, 0.0f);
+	s_RenderData.vertexIndexPtr->pos = glm::vec3(posReal.x + size.x, posReal .y + size.y, 0.0f);
 	s_RenderData.vertexIndexPtr->color = whiteColor;
 	s_RenderData.vertexIndexPtr->texCoords = glm::vec2(1.0f, 1.0f);
 	s_RenderData.vertexIndexPtr->texIndex = texId;
 	s_RenderData.vertexIndexPtr++;
 
 
-	s_RenderData.vertexIndexPtr->pos = glm::vec3(pos.x, pos.y + size.y, 0.0f);
+	s_RenderData.vertexIndexPtr->pos = glm::vec3(posReal.x, posReal.y + size.y, 0.0f);
 	s_RenderData.vertexIndexPtr->color = whiteColor;
 	s_RenderData.vertexIndexPtr->texCoords = glm::vec2(0.0f, 1.0f);
 	s_RenderData.vertexIndexPtr->texIndex = texId;

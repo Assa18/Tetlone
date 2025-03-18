@@ -48,7 +48,7 @@ private:
 
 	Window* m_Window;
 	uint32_t m_Width, m_Height;
-	float m_Speed = 1.0f;
+	float m_Speed = 2.0f;
 	float m_DeltaTime, m_LastFrame;
 
 	GameRenderer m_Renderer;

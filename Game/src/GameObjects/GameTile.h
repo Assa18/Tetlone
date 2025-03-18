@@ -7,8 +7,8 @@ struct GameTile
 {
 	GameTile()
 	{
-		X = 9;
-		Y = -1;
+		X = 4;
+		Y = 20;
 	}
 
 	GameTile(int32_t x, int32_t y, const glm::vec4& color)

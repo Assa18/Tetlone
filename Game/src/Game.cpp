@@ -54,19 +54,19 @@ void Game::Run()
 		float curFrame = glfwGetTime();
 		m_DeltaTime = curFrame - m_LastFrame;
 		m_LastFrame = curFrame;
+
 		Update();
 
 		//m_GameData.Update();
 
 		m_Renderer.BeginRender();
 
-
 		// background
-		m_Renderer.Quad(glm::vec2(-1.0f, -2.0f), glm::vec2(2.0f, 4.0f), 3);
+		m_Renderer.Quad(glm::vec2(0.0f, 0.0f), glm::vec2(2.0f, 4.0f), 3);
 		
 		for (auto& tile : m_GameData.Tiles)
 		{
-			m_Renderer.Quad(glm::vec2(tile.second.X * 0.2f + 0.005f, tile.second.Y * 0.2f + 0.005f), m_TileSize, tile.second.Color);
+			m_Renderer.Quad(glm::vec2(tile.first.first * 0.2f + 0.005f, tile.first.second * 0.2f + 0.005f), m_TileSize, tile.second.Color);
 		}
 
 		for (auto& tile : m_GameData.MovingTiles)
@@ -91,11 +91,14 @@ void Game::Update()
 	if (Input::IsKeyPressed(GAME_KEY_ESCAPE))
 		m_Window->SetClosed(true);
 
-	if (Input::IsKeyJustPressed(GAME_KEY_A))
+	if (Input::IsKeyJustPressed(GAME_KEY_A) || Input::IsKeyJustPressed(GAME_KEY_LEFT))
 		Move(-1);
 
-	if (Input::IsKeyJustPressed(GAME_KEY_D))
+	if (Input::IsKeyJustPressed(GAME_KEY_D) || Input::IsKeyJustPressed(GAME_KEY_RIGHT))
 		Move(1);
+
+	if (Input::IsKeyJustPressed(GAME_KEY_S) || Input::IsKeyJustPressed(GAME_KEY_DOWN))
+		m_Speed += 4.0f;
 
 	for (int i = 0; i < m_GameData.MovingTiles.size(); i++)
 	{
@@ -115,7 +118,7 @@ void Game::Move(int dir)
 	bool canMove = true;
 	for (const auto& tile : m_GameData.MovingTiles)
 	{
-		if (tile.X + dir < -5 || tile.X + dir>4 || 
+		if (tile.X + dir < 0 || tile.X + dir>9 || 
 			m_GameData.Tiles.find(std::make_pair<int, int>(std::trunc(tile.X)+dir, std::trunc(tile.Y))) != m_GameData.Tiles.end())
 		{
 			canMove = false;
@@ -140,16 +143,16 @@ void Game::CheckCollision()
 	bool shouldStop = false;
 	for (const auto& tile : m_GameData.MovingTiles)
 	{
-		if (std::abs(tile.Y + 10) < 0.05f)
+		if (std::abs(tile.Y) < 0.05f)
 		{
 			shouldStop = true;
 			break;
 		}
 
-		for (int y = 9; y >= -10; y--)
+		for (int y = 19; y >= 0; y--)
 		{
 			if (m_GameData.Tiles.find(std::make_pair<int,int>(std::trunc(tile.X), (float)y)) != m_GameData.Tiles.end() &&
-				std::abs(tile.Y - y) < 0.05f)
+				std::abs(tile.Y - (y + 1)) < 0.05f)
 			{
 				shouldStop = true;
 				break;
@@ -163,8 +166,10 @@ void Game::CheckCollision()
 		{
 			m_GameData.Tiles[std::make_pair<int, int>(std::trunc(tile.X), std::trunc(tile.Y))] = tile;
 		}
+		std::cout << '\n';
 
 		m_GameData.MovingTiles.clear();
+		m_Speed = 2.0f;
 		SpawnNext();
 	}
 }
@@ -177,6 +182,6 @@ void Game::SpawnNext()
 	int index = rand() % 7;
 	for (int i = (index * 8); i < (index + 1) * 8; i += 2)
 	{
-		m_GameData.MovingTiles.emplace_back(shapeDirs[i], 10 + shapeDirs[i + 1], color);
+		m_GameData.MovingTiles.emplace_back(5+shapeDirs[i], 20 + shapeDirs[i + 1], color);
 	}
 }
