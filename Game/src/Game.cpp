@@ -166,9 +166,17 @@ void Game::CheckCollision()
 		{
 			m_GameData.Tiles[std::make_pair<int, int>(std::trunc(tile.X), std::trunc(tile.Y))] = tile;
 		}
-		std::cout << '\n';
 
 		m_GameData.MovingTiles.clear();
+		
+		int index = 0, offset = 0;
+		CheckFullLines(index, offset);
+		if (index != -1)
+		{
+			RemoveFullLines();
+			PullDownRest(index, offset);
+		}
+		
 		m_Speed = 2.0f;
 		SpawnNext();
 	}
@@ -183,5 +191,63 @@ void Game::SpawnNext()
 	for (int i = (index * 8); i < (index + 1) * 8; i += 2)
 	{
 		m_GameData.MovingTiles.emplace_back(5+shapeDirs[i], 20 + shapeDirs[i + 1], color);
+	}
+}
+
+void Game::CheckFullLines(int& index, int& offset)
+{
+	index = -1;
+	offset = 0;
+
+	for (int i = 0; i < 20; i++)
+	{
+		bool isFull = true;
+		for (int j = 0; j < 10; j++)
+		{
+			if (m_GameData.Tiles.find(std::make_pair<int, int>((float)j, (float)i)) == m_GameData.Tiles.end())
+			{
+				isFull = false;
+				break;
+			}
+		}
+
+		if (isFull)
+		{
+			m_IsFullLine[i] = true;
+			if (index == -1)
+				index = i;
+			offset++;
+		}
+	}
+}
+
+void Game::RemoveFullLines()
+{
+	for (int i = 0; i < 20; i++)
+	{
+		if (m_IsFullLine[i])
+		{
+			m_IsFullLine[i] = false;
+			for (int j = 0; j < 10; j++)
+			{
+				m_GameData.Tiles.erase(std::make_pair<int, int>((float)j, (float)i));
+			}
+		}
+	}
+}
+
+void Game::PullDownRest(int index, int offset)
+{
+	for (int i = index + 1; i < 20; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (m_GameData.Tiles.find(std::make_pair<int, int>((float)j, (float)i)) != m_GameData.Tiles.end())
+			{
+				m_GameData.Tiles[std::make_pair<int, int>((float)j, (float)i - offset)] = m_GameData.Tiles[std::make_pair<int, int>((float)j, (float)i)];
+
+				m_GameData.Tiles.erase(std::make_pair<int, int>((float)j, (float)i));
+			}
+		}
 	}
 }
