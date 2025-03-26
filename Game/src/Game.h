@@ -42,10 +42,11 @@ private:
 	void CheckCollision();
 	void SpawnNext();
 
-	// returns the Y coord, of the most bottom full line, or -1
 	void CheckFullLines(int& index, int& offset);
 	void RemoveFullLines();
 	void PullDownRest(int index, int offset);
+	void RotateMovingObject();
+	bool CheckRotated(std::pair<int, float>* positions);
 
 	void Move(int dir);
 private:

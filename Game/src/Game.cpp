@@ -100,6 +100,9 @@ void Game::Update()
 	if (Input::IsKeyJustPressed(GAME_KEY_S) || Input::IsKeyJustPressed(GAME_KEY_DOWN))
 		m_Speed += 4.0f;
 
+	if (Input::IsKeyJustPressed(GAME_KEY_R))
+		RotateMovingObject();
+
 	for (int i = 0; i < m_GameData.MovingTiles.size(); i++)
 	{
 		m_GameData.MovingTiles[i].Y -= m_Speed * m_DeltaTime;
@@ -190,7 +193,7 @@ void Game::SpawnNext()
 	int index = rand() % 7;
 	for (int i = (index * 8); i < (index + 1) * 8; i += 2)
 	{
-		m_GameData.MovingTiles.emplace_back(5+shapeDirs[i], 20 + shapeDirs[i + 1], color);
+		m_GameData.MovingTiles.emplace_back(index, 5 + shapeDirs[i], 20 + shapeDirs[i + 1], color);
 	}
 }
 
@@ -250,4 +253,57 @@ void Game::PullDownRest(int index, int offset)
 			}
 		}
 	}
+}
+
+void Game::RotateMovingObject()
+{
+	std::pair<int, float> newPositions[4];
+	switch (m_GameData.MovingTiles[0].type)
+	{
+	case 0: // I
+		break;
+	case 1: // J
+		break;
+	case 2: // L
+		break;
+	case 3: // O
+		break;
+	case 4: // S
+		break;
+	case 5: // T
+		break;
+	case 6: // Z
+		break;
+	default:
+		break;
+	}
+
+	if (CheckRotated(newPositions))
+	{
+		m_GameData.MovingTiles[0].X = newPositions[0].first;
+		m_GameData.MovingTiles[0].Y = newPositions[0].second;
+		m_GameData.MovingTiles[1].X = newPositions[1].first;
+		m_GameData.MovingTiles[1].Y = newPositions[1].second;
+		m_GameData.MovingTiles[2].X = newPositions[2].first;
+		m_GameData.MovingTiles[2].Y = newPositions[2].second;
+		m_GameData.MovingTiles[3].X = newPositions[3].first;
+		m_GameData.MovingTiles[3].Y = newPositions[3].second;
+	}
+}
+
+bool Game::CheckRotated(std::pair<int, float>* positions)
+{
+	bool correct = true;
+
+	for (int i = 0; i < 4; i++)
+	{
+		positions[i].second = std::floor(positions[i].second);
+		if (m_GameData.Tiles.find(positions[i]) == m_GameData.Tiles.end())
+		{
+			correct = false;
+			break;
+		}
+	}
+
+	return correct;
 }
