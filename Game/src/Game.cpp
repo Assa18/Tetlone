@@ -258,36 +258,21 @@ void Game::PullDownRest(int index, int offset)
 void Game::RotateMovingObject()
 {
 	std::pair<int, float> newPositions[4];
-	switch (m_GameData.MovingTiles[0].type)
+	for (int i = 0; i < 4; i++)
 	{
-	case 0: // I
-		break;
-	case 1: // J
-		break;
-	case 2: // L
-		break;
-	case 3: // O
-		break;
-	case 4: // S
-		break;
-	case 5: // T
-		break;
-	case 6: // Z
-		break;
-	default:
-		break;
+		newPositions[i].first = m_GameData.MovingTiles[i].X;
+		newPositions[i].second = m_GameData.MovingTiles[i].Y;
 	}
+	GameTile::Rotate(newPositions, m_GameData.MovingTiles[0].rotState, m_GameData.MovingTiles[0].type);
 
 	if (CheckRotated(newPositions))
 	{
-		m_GameData.MovingTiles[0].X = newPositions[0].first;
-		m_GameData.MovingTiles[0].Y = newPositions[0].second;
-		m_GameData.MovingTiles[1].X = newPositions[1].first;
-		m_GameData.MovingTiles[1].Y = newPositions[1].second;
-		m_GameData.MovingTiles[2].X = newPositions[2].first;
-		m_GameData.MovingTiles[2].Y = newPositions[2].second;
-		m_GameData.MovingTiles[3].X = newPositions[3].first;
-		m_GameData.MovingTiles[3].Y = newPositions[3].second;
+		for (int i = 0; i < 4; i++)
+		{
+			m_GameData.MovingTiles[i].X = newPositions[i].first;
+			m_GameData.MovingTiles[i].Y = newPositions[i].second;
+			m_GameData.MovingTiles[i].rotState = (m_GameData.MovingTiles[i].rotState + 1) % 4;
+		}
 	}
 }
 
@@ -298,7 +283,8 @@ bool Game::CheckRotated(std::pair<int, float>* positions)
 	for (int i = 0; i < 4; i++)
 	{
 		positions[i].second = std::floor(positions[i].second);
-		if (m_GameData.Tiles.find(positions[i]) == m_GameData.Tiles.end())
+		if (positions[i].first < 0 || positions[i].first > 9 ||
+			positions[i].second < 0 || m_GameData.Tiles.find(positions[i]) != m_GameData.Tiles.end())
 		{
 			correct = false;
 			break;
