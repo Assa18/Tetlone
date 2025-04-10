@@ -1,17 +1,17 @@
 # Tetlone
 
-This repository contains a small Tetris clone game. It is written in C++ with OpenGL
+This repository contains a small Tetris clone game. It is written in C++ with OpenGL.
 
 ## Overview
 
-This project is under development, I work on it in my spare time
-It is a basic tetris like game, differently shaped object spam on the screnn and are falling down slowly and you can control their direction. If you complete a row, you can get bonus points.
+This project is under development, I work on it in my spare time.
+It is a basic tetris like game, differently shaped objects span on the screnn and are falling down slowly. You can control their direction. If you complete a row, you can get bonus points.
 
 ## Features
 
 - The game stores the top scores locally in a text file
 - The gametiles are batched together and are drawn with one render call
-- You can move the currently moving object with the A and D keys
+- You can move the currently moving object with the A, S and D or Left, Down and Right keys
 
 ## Requirements and download
 
