@@ -45,6 +45,7 @@ void Game::Initialize()
 	m_Renderer.Initialize();
 
 	SpawnNext();
+	SpawnNext();
 }
 
 void Game::Run()
@@ -61,7 +62,10 @@ void Game::Run()
 
 		// background
 		m_Renderer.Quad(glm::vec2(0.0f, 0.0f), glm::vec2(2.0f, 4.0f), 2);
-		m_Renderer.Text("Welcome to Tetlone!", { -1.0f, 1.7f }, { 1.0f,0.0f,0.0f,1.0f }, 0.005f);
+		m_Renderer.Text("Points: " + std::to_string(m_GameLogicData.Points), { -1.95f, 1.75f }, { 1.0f,0.0f,0.0f,1.0f }, 0.0035f);
+		m_Renderer.Text("Next: ", { 1.20f, 1.75f }, { 1.0f,0.0f,0.0f,1.0f }, 0.0035f);
+
+		m_Renderer.Quad({ 2.12f, 2.7f }, { 0.75f,0.85f }, { 0.15f,0.15f,0.15f,1.0f });
 		
 		for (auto& tile : m_GameData.Tiles)
 		{
@@ -73,6 +77,11 @@ void Game::Run()
 		case GameStates::MENU:
 			break;
 		case GameStates::PLAYING:
+			for (auto& tile : m_GameData.NextTiles)
+			{
+				m_Renderer.Quad(glm::vec2(1.85f + tile.X * 0.1f + 0.005f, 1.0f + tile.Y * 0.1f + 0.005f), m_TileSize * 0.5f, tile.Color);
+			}
+
 			for (auto& tile : m_GameData.MovingTiles)
 			{
 				m_Renderer.Quad(glm::vec2(tile.X * 0.2f + 0.005f, tile.Y * 0.2f + 0.005f), m_TileSize, tile.Color);
@@ -211,23 +220,28 @@ void Game::CheckCollision()
 			if (m_GameData.Tiles.find(std::make_pair<int, int>((float)i, 19)) != m_GameData.Tiles.end())
 			{
 				std::cout << "You lost!\n";
-				exit(0);
+				m_GameData.Tiles.clear();
+				m_State = GameStates::MENU;
+				break;
 			}
 		}
 
 		SpawnNext();
+		m_GameLogicData.Points++;
 	}
 }
 
 void Game::SpawnNext()
 {
+	m_GameData.MovingTiles = m_GameData.NextTiles;
+	m_GameData.NextTiles.clear();
 	glm::vec4 color = glm::vec4((float)(rand() % 255) / (float)254, (float)(rand() % 255) / (float)254, (float)(rand() % 255) / (float)254, 1.0f);
-	m_GameData.MovingTiles.reserve(4);
+	m_GameData.NextTiles.reserve(4);
 
 	int index = rand() % 7;
 	for (int i = (index * 8); i < (index + 1) * 8; i += 2)
 	{
-		m_GameData.MovingTiles.emplace_back(index, 5 + shapeDirs[i], 20 + shapeDirs[i + 1], color);
+		m_GameData.NextTiles.emplace_back(index, 5 + shapeDirs[i], 20 + shapeDirs[i + 1], color);
 	}
 }
 
@@ -269,6 +283,7 @@ void Game::RemoveFullLines()
 			{
 				m_GameData.Tiles.erase(std::make_pair<int, int>((float)j, (float)i));
 			}
+			m_GameLogicData.Points += 5;
 		}
 	}
 }

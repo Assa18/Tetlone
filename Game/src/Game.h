@@ -16,6 +16,11 @@ enum class GameStates {
 	ABOUT
 };
 
+struct GameLogicData
+{
+	int Points = 0;
+};
+
 struct GameData
 {
 	Camera2D Camera;
@@ -23,6 +28,7 @@ struct GameData
 	std::map<std::pair<int, int>, GameTile> Tiles;
 
 	std::vector<GameTile> MovingTiles;
+	std::vector<GameTile> NextTiles;
 
 	void Update()
 	{
@@ -69,6 +75,7 @@ private:
 
 	GameRenderer m_Renderer;
 	GameData m_GameData;
+	GameLogicData m_GameLogicData;
 
 	static Game* s_Instance;
 
