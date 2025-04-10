@@ -29,7 +29,8 @@ project "Game"
     links
     {
         "glfw3.lib",
-        "opengl32.lib"
+        "opengl32.lib",
+        "freetype.lib"
     }
 
     includedirs

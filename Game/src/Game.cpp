@@ -57,21 +57,36 @@ void Game::Run()
 
 		Update();
 
-		//m_GameData.Update();
-
 		m_Renderer.BeginRender();
 
 		// background
-		m_Renderer.Quad(glm::vec2(0.0f, 0.0f), glm::vec2(2.0f, 4.0f), 3);
+		m_Renderer.Quad(glm::vec2(0.0f, 0.0f), glm::vec2(2.0f, 4.0f), 2);
+		m_Renderer.Text("Welcome to Tetlone!", { -1.0f, 1.7f }, { 1.0f,0.0f,0.0f,1.0f }, 0.005f);
 		
 		for (auto& tile : m_GameData.Tiles)
 		{
 			m_Renderer.Quad(glm::vec2(tile.first.first * 0.2f + 0.005f, tile.first.second * 0.2f + 0.005f), m_TileSize, tile.second.Color);
 		}
 
-		for (auto& tile : m_GameData.MovingTiles)
+		switch (m_State)
 		{
-			m_Renderer.Quad(glm::vec2(tile.X * 0.2f + 0.005f, tile.Y * 0.2f + 0.005f), m_TileSize, tile.Color);
+		case GameStates::MENU:
+			break;
+		case GameStates::PLAYING:
+			for (auto& tile : m_GameData.MovingTiles)
+			{
+				m_Renderer.Quad(glm::vec2(tile.X * 0.2f + 0.005f, tile.Y * 0.2f + 0.005f), m_TileSize, tile.Color);
+			}
+			UpdatePlay();
+			break;
+		case GameStates::TOP_SCORES:
+			break;
+		case GameStates::SETTINGS:
+			break;
+		case GameStates::ABOUT:
+			break;
+		default:
+			break;
 		}
 
 		m_Renderer.Draw(m_GameData.Camera);
@@ -91,6 +106,10 @@ void Game::Update()
 	if (Input::IsKeyPressed(GAME_KEY_ESCAPE))
 		m_Window->SetClosed(true);
 
+}
+
+void Game::UpdatePlay()
+{
 	if (Input::IsKeyJustPressed(GAME_KEY_A) || Input::IsKeyJustPressed(GAME_KEY_LEFT))
 		Move(-1);
 
@@ -109,6 +128,11 @@ void Game::Update()
 	}
 
 	CheckCollision();
+}
+
+void Game::UpdateMenu()
+{
+
 }
 
 void Game::Resize(uint32_t width, uint32_t height)
@@ -181,6 +205,16 @@ void Game::CheckCollision()
 		}
 		
 		m_Speed = 2.0f;
+
+		for (int i = 0; i < 10; i++)
+		{
+			if (m_GameData.Tiles.find(std::make_pair<int, int>((float)i, 19)) != m_GameData.Tiles.end())
+			{
+				std::cout << "You lost!\n";
+				exit(0);
+			}
+		}
+
 		SpawnNext();
 	}
 }

@@ -8,6 +8,14 @@
 
 #include <vector>
 
+enum class GameStates {
+	MENU,
+	PLAYING,
+	TOP_SCORES,
+	SETTINGS,
+	ABOUT
+};
+
 struct GameData
 {
 	Camera2D Camera;
@@ -39,6 +47,10 @@ public:
 	inline GameData* GetGameData() { return &m_GameData; }
 private:
 	void Update();
+
+	void UpdatePlay();
+	void UpdateMenu();
+
 	void CheckCollision();
 	void SpawnNext();
 
@@ -63,6 +75,7 @@ private:
 	glm::vec2 m_TileSize = glm::vec2(0.19f, 0.19f);
 
 	bool m_IsFullLine[20] = { false };
+	GameStates m_State = GameStates::PLAYING;
 };
 
 void framebufferSizeCallback(GLFWwindow* window, int32_t width, int32_t height);

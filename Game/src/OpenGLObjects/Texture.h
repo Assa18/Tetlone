@@ -19,8 +19,8 @@ public:
 	Texture();
 	~Texture();
 
-	inline uint32_t GetID() { return m_ID; }
-	inline uint32_t GetIndex() { return m_Index; }
+	inline uint32_t GetID() const { return m_ID; }
+	inline uint32_t GetIndex() const { return m_Index; }
 
 	void Bind() const;
 	void Unbind() const;

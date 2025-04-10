@@ -26,6 +26,7 @@ public:
 	void SetFloat3(const std::string& name, float values[]);
 	void SetFloat4(const std::string& name, float x, float y, float z, float alpha);
 	void SetFloat4(const std::string& name, float values[]);
+	void SetVec3(const std::string& name, glm::vec3 vector);
 
 	void SetMat4(const std::string& name, glm::mat4 matrix);
 private:

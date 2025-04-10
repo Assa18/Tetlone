@@ -13,6 +13,12 @@
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Application">
+      <UniqueIdentifier>{701253C7-DC9D-C08B-E5AE-438051B91C8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameObjects">
+      <UniqueIdentifier>{A0E17904-0C6D-E7C8-157E-6ABD818843C9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\OpenGLObjects">
       <UniqueIdentifier>{0B86B346-779C-B1DC-C013-3DFE2C698264}</UniqueIdentifier>
     </Filter>
@@ -21,11 +27,44 @@
     <ClInclude Include="dependencies\include\stb_image\stb_image.h">
       <Filter>dependencies\include\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Application\Window.h">
+      <Filter>src\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\WindowFactory.h">
+      <Filter>src\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\WindowsInput.h">
+      <Filter>src\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\WindowsKeyCodes.h">
+      <Filter>src\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\WindowsWindow.h">
+      <Filter>src\Application</Filter>
+    </ClInclude>
     <ClInclude Include="src\Game.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameObjects\GameTile.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameRenderer.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGLObjects\Camera.h">
+      <Filter>src\OpenGLObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGLObjects\Camera2D.h">
+      <Filter>src\OpenGLObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGLObjects\Character.h">
+      <Filter>src\OpenGLObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGLObjects\FrameBuffer.h">
+      <Filter>src\OpenGLObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\OpenGLObjects\Shader.h">
       <Filter>src\OpenGLObjects</Filter>
@@ -33,26 +72,25 @@
     <ClInclude Include="src\OpenGLObjects\Texture.h">
       <Filter>src\OpenGLObjects</Filter>
     </ClInclude>
-    <ClInclude Include="src\OpenGLObjects\Camera.h" />
-    <ClInclude Include="src\OpenGLObjects\Camera2D.h" />
-    <ClInclude Include="src\Application\Window.h" />
-    <ClInclude Include="src\Application\WindowFactory.h" />
-    <ClInclude Include="src\Application\WindowsWindow.h" />
-    <ClInclude Include="src\Input.h" />
-    <ClInclude Include="src\Application\WindowsKeyCodes.h" />
-    <ClInclude Include="src\Application\WindowsInput.h" />
-    <ClInclude Include="src\GameObjects\GameTile.h" />
-    <ClInclude Include="src\OpenGLObjects\FrameBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dependencies\include\stb_image\stb_image.cpp">
       <Filter>dependencies\include\stb_image</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\WindowsWindow.cpp">
+      <Filter>src\Application</Filter>
     </ClCompile>
     <ClCompile Include="src\Game.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\GameRenderer.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGLObjects\Camera2D.cpp">
+      <Filter>src\OpenGLObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGLObjects\FrameBuffer.cpp">
+      <Filter>src\OpenGLObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\OpenGLObjects\Shader.cpp">
       <Filter>src\OpenGLObjects</Filter>
@@ -66,8 +104,5 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGLObjects\Camera2D.cpp" />
-    <ClCompile Include="src\Application\WindowsWindow.cpp" />
-    <ClCompile Include="src\OpenGLObjects\FrameBuffer.cpp" />
   </ItemGroup>
 </Project>

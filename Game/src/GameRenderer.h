@@ -8,6 +8,7 @@
 #include "OpenGLObjects/Texture.h"
 #include "OpenGlObjects/Camera2D.h"
 #include "OpenGLObjects/FrameBuffer.h"
+#include "OpenGLObjects/Character.h"
 
 #include "GameObjects/GameTile.h"
 
@@ -55,6 +56,11 @@ public:
 
 	void Quad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
 	void Quad(const glm::vec2& pos, const glm::vec2& size, int texId);
+	void Text(const std::string& text, const glm::vec2& pos, const glm::vec4& color, float height);
+
+private:
+	void LoadFontMap(const char* path);
+
 private:
 	Shader m_Shader;
 	Shader m_ScreenShader;
@@ -62,4 +68,6 @@ private:
 	FrameBuffer m_FrameBuffer;
 
 	std::map<std::string, Texture> m_Textures;
+	std::map<char, Character> m_Characters;
+	uint32_t m_FontTextureAtlasID;
 };
