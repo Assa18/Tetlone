@@ -12,13 +12,15 @@ enum class GameStates {
 	MENU,
 	PLAYING,
 	TOP_SCORES,
-	SETTINGS,
-	ABOUT
+	ABOUT,
+	SETTINGS
 };
 
 struct GameLogicData
 {
 	int Points = 0;
+	int MenuSelectedIndex = 0;
+	int HighScores[10] = { 0 };
 };
 
 struct GameData
@@ -56,6 +58,7 @@ private:
 
 	void UpdatePlay();
 	void UpdateMenu();
+	void UpdateHighScores();
 
 	void CheckCollision();
 	void SpawnNext();
@@ -67,6 +70,9 @@ private:
 	bool CheckRotated(std::pair<int, float>* positions);
 
 	void Move(int dir);
+
+	void AddPointsToHighScores(int point);
+	void InitHighScores();
 private:
 	Window* m_Window;
 	uint32_t m_Width, m_Height;
@@ -82,7 +88,7 @@ private:
 	glm::vec2 m_TileSize = glm::vec2(0.19f, 0.19f);
 
 	bool m_IsFullLine[20] = { false };
-	GameStates m_State = GameStates::PLAYING;
+	GameStates m_State = GameStates::MENU;
 };
 
 void framebufferSizeCallback(GLFWwindow* window, int32_t width, int32_t height);

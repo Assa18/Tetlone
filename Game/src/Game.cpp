@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <time.h>
+#include <fstream>
 
 static int shapeDirs[] = {
 	 0, 0, 0, 1, 0, 2, 0, 3, // I
@@ -42,10 +43,8 @@ void Game::Initialize()
 		exit(1);
 	}
 
+	InitHighScores();
 	m_Renderer.Initialize();
-
-	SpawnNext();
-	SpawnNext();
 }
 
 void Game::Run()
@@ -57,7 +56,6 @@ void Game::Run()
 		m_LastFrame = curFrame;
 
 		Update();
-
 		m_Renderer.BeginRender();
 
 		// background
@@ -75,6 +73,8 @@ void Game::Run()
 		switch (m_State)
 		{
 		case GameStates::MENU:
+			m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.55f,0.55f,0.55f,0.5f });
+			UpdateMenu();
 			break;
 		case GameStates::PLAYING:
 			for (auto& tile : m_GameData.NextTiles)
@@ -89,10 +89,14 @@ void Game::Run()
 			UpdatePlay();
 			break;
 		case GameStates::TOP_SCORES:
+			m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.55f,0.55f,0.55f,0.5f });
+			UpdateHighScores();
 			break;
 		case GameStates::SETTINGS:
+			m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.55f,0.55f,0.55f,0.5f });
 			break;
 		case GameStates::ABOUT:
+			m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.55f,0.55f,0.55f,0.5f });
 			break;
 		default:
 			break;
@@ -114,7 +118,6 @@ void Game::Update()
 {
 	if (Input::IsKeyPressed(GAME_KEY_ESCAPE))
 		m_Window->SetClosed(true);
-
 }
 
 void Game::UpdatePlay()
@@ -141,7 +144,60 @@ void Game::UpdatePlay()
 
 void Game::UpdateMenu()
 {
+	if (Input::IsKeyJustPressed(GAME_KEY_ENTER))
+	{
+		switch (m_GameLogicData.MenuSelectedIndex)
+		{
+		case 0:
+			m_State = GameStates::PLAYING;
+			SpawnNext();
+			SpawnNext();
+			break;
+		case 1:
+			m_State = GameStates::TOP_SCORES;
+			break;
+		case 2:
+			m_State = GameStates::ABOUT;
+			break;
+		case 3:
+			m_State = GameStates::SETTINGS;
+			break;
+		default:
+			break;
+		}
+	}
 
+	if (Input::IsKeyJustPressed(GAME_KEY_DOWN))
+	{
+		m_GameLogicData.MenuSelectedIndex = std::min(3, ++m_GameLogicData.MenuSelectedIndex);
+	}
+
+	if (Input::IsKeyJustPressed(GAME_KEY_UP))
+	{
+		m_GameLogicData.MenuSelectedIndex = std::max(0, --m_GameLogicData.MenuSelectedIndex);
+	}
+
+	m_Renderer.Text("Menu", { -0.45f, 1.75f }, { 1.0f,0.0f,0.0f,1.0f }, 0.005f);
+	m_Renderer.Text("Play", { -0.45f, 1.45f }, { 1.0f,0.0f,0.0f,1.0f }, 0.004f);
+	m_Renderer.Text("High scores", { -0.45f, 1.25f }, { 1.0f,0.0f,0.0f,1.0f }, 0.004f);
+	m_Renderer.Text("About", { -0.45f, 1.05f }, { 1.0f,0.0f,0.0f,1.0f }, 0.004f);
+	m_Renderer.Text("Settings", { -0.45f, 0.85f }, { 1.0f,0.0f,0.0f,1.0f }, 0.004f);
+
+	m_Renderer.Text("<-", { 0.65f, 1.45f - m_GameLogicData.MenuSelectedIndex * 0.2f}, { 1.0f,0.0f,0.0f,1.0f }, 0.005);
+}
+
+
+void Game::UpdateHighScores()
+{
+	if (Input::IsKeyJustPressed(GAME_KEY_BACKSPACE))
+		m_State = GameStates::MENU;
+
+	m_Renderer.Text("High scores:", { -0.45f, 1.75f }, { 1.0f,0.0f,0.0f,1.0f }, 0.005f);
+	for (int i = 0; i < 10; i++)
+	{
+		m_Renderer.Text(std::to_string(i+1) + ": " + std::to_string(m_GameLogicData.HighScores[i]), 
+			{-0.45f, 1.45f - i * 0.2f}, {1.0f,0.0f,0.0f,1.0f}, 0.004f);
+	}
 }
 
 void Game::Resize(uint32_t width, uint32_t height)
@@ -198,6 +254,7 @@ void Game::CheckCollision()
 
 	if (shouldStop)
 	{
+		m_GameLogicData.Points++;
 		for (const auto& tile : m_GameData.MovingTiles)
 		{
 			m_GameData.Tiles[std::make_pair<int, int>(std::trunc(tile.X), std::trunc(tile.Y))] = tile;
@@ -219,15 +276,15 @@ void Game::CheckCollision()
 		{
 			if (m_GameData.Tiles.find(std::make_pair<int, int>((float)i, 19)) != m_GameData.Tiles.end())
 			{
-				std::cout << "You lost!\n";
 				m_GameData.Tiles.clear();
 				m_State = GameStates::MENU;
+				AddPointsToHighScores(m_GameLogicData.Points);
+				m_GameLogicData.Points = 0;
 				break;
 			}
 		}
 
 		SpawnNext();
-		m_GameLogicData.Points++;
 	}
 }
 
@@ -341,4 +398,51 @@ bool Game::CheckRotated(std::pair<int, float>* positions)
 	}
 
 	return correct;
+}
+
+void Game::AddPointsToHighScores(int point)
+{
+	if (point <= m_GameLogicData.HighScores[9])
+		return;
+
+	bool found = false;
+	int i = 9;
+	while (i >= 0 && point > m_GameLogicData.HighScores[i])
+	{
+		i--;
+	}
+
+	for (int j = 9; j > i + 1; j--)
+	{
+		m_GameLogicData.HighScores[j] = m_GameLogicData.HighScores[j - 1];
+	}
+
+	// Insert the new score
+	m_GameLogicData.HighScores[i + 1] = point;
+
+	std::ofstream outFile("res/highscores.txt");
+
+	if (!outFile)
+		return;
+
+	for (int i = 0; i < 10; i++)
+	{
+		outFile << m_GameLogicData.HighScores[i] << "\n";
+	}
+
+	outFile.close();
+}
+
+void Game::InitHighScores()
+{
+	std::ifstream inFile("res/highscores.txt");
+
+	if (!inFile)
+		return;
+
+	for (int i = 0; i < 10; i++)
+	{
+		inFile >> m_GameLogicData.HighScores[i];
+	}
+	inFile.close();
 }
