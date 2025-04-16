@@ -2,6 +2,7 @@
 
 //might be replaced with a factory solution
 #include "Application/WindowsInput.h"
+#include "Application/SoundEngine.h"
 
 #include <iostream>
 #include <time.h>
@@ -45,6 +46,7 @@ void Game::Initialize()
 
 	InitHighScores();
 	m_Renderer.Initialize();
+	SoundEngine::Initialize();
 }
 
 void Game::Run()
@@ -60,8 +62,8 @@ void Game::Run()
 
 		// background
 		m_Renderer.Quad(glm::vec2(0.0f, 0.0f), glm::vec2(2.0f, 4.0f), 2);
-		m_Renderer.Text("Points: " + std::to_string(m_GameLogicData.Points), { -1.95f, 1.75f }, { 1.0f,0.0f,0.0f,1.0f }, 0.0035f);
-		m_Renderer.Text("Next: ", { 1.20f, 1.75f }, { 1.0f,0.0f,0.0f,1.0f }, 0.0035f);
+		m_Renderer.Text("Points: " + std::to_string(m_GameLogicData.Points), { -1.95f, 1.75f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.0035f);
+		m_Renderer.Text("Next: ", { 1.20f, 1.75f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.0035f);
 
 		m_Renderer.Quad({ 2.12f, 2.7f }, { 0.75f,0.85f }, { 0.15f,0.15f,0.15f,1.0f });
 		
@@ -73,7 +75,6 @@ void Game::Run()
 		switch (m_State)
 		{
 		case GameStates::MENU:
-			m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.55f,0.55f,0.55f,0.5f });
 			UpdateMenu();
 			break;
 		case GameStates::PLAYING:
@@ -89,14 +90,11 @@ void Game::Run()
 			UpdatePlay();
 			break;
 		case GameStates::TOP_SCORES:
-			m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.55f,0.55f,0.55f,0.5f });
 			UpdateHighScores();
 			break;
 		case GameStates::SETTINGS:
-			m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.55f,0.55f,0.55f,0.5f });
 			break;
 		case GameStates::ABOUT:
-			m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.55f,0.55f,0.55f,0.5f });
 			break;
 		default:
 			break;
@@ -131,7 +129,10 @@ void Game::UpdatePlay()
 	if (Input::IsKeyJustPressed(GAME_KEY_S) || Input::IsKeyJustPressed(GAME_KEY_DOWN))
 		m_Speed += 4.0f;
 
-	if (Input::IsKeyJustPressed(GAME_KEY_R))
+	if (Input::IsKeyJustPressed(GAME_KEY_UP) && m_Speed >= 4.0f)
+		m_Speed -= 2.0f;
+
+	if (Input::IsKeyJustPressed(GAME_KEY_R) || Input::IsKeyJustPressed(GAME_KEY_RIGHT_SHIFT))
 		RotateMovingObject();
 
 	for (int i = 0; i < m_GameData.MovingTiles.size(); i++)
@@ -140,10 +141,18 @@ void Game::UpdatePlay()
 	}
 
 	CheckCollision();
+
+	if (m_GameData.ShakeTime > 0.0f)
+	{
+		m_GameData.ShakeTime -= m_DeltaTime;
+		if (m_GameData.ShakeTime <= 0.0f)
+			m_Renderer.SetShaking(false);
+	}
 }
 
 void Game::UpdateMenu()
 {
+	m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.2f,0.3f,0.4f,0.5f });
 	if (Input::IsKeyJustPressed(GAME_KEY_ENTER))
 	{
 		switch (m_GameLogicData.MenuSelectedIndex)
@@ -177,32 +186,34 @@ void Game::UpdateMenu()
 		m_GameLogicData.MenuSelectedIndex = std::max(0, --m_GameLogicData.MenuSelectedIndex);
 	}
 
-	m_Renderer.Text("Menu", { -0.45f, 1.75f }, { 1.0f,0.0f,0.0f,1.0f }, 0.005f);
-	m_Renderer.Text("Play", { -0.45f, 1.45f }, { 1.0f,0.0f,0.0f,1.0f }, 0.004f);
-	m_Renderer.Text("High scores", { -0.45f, 1.25f }, { 1.0f,0.0f,0.0f,1.0f }, 0.004f);
-	m_Renderer.Text("About", { -0.45f, 1.05f }, { 1.0f,0.0f,0.0f,1.0f }, 0.004f);
-	m_Renderer.Text("Settings", { -0.45f, 0.85f }, { 1.0f,0.0f,0.0f,1.0f }, 0.004f);
+	m_Renderer.Text("Menu", { -0.45f, 1.75f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.005f);
+	m_Renderer.Text("Play", { -0.45f, 1.45f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
+	m_Renderer.Text("High scores", { -0.45f, 1.25f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
+	m_Renderer.Text("About", { -0.45f, 1.05f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
+	m_Renderer.Text("Settings", { -0.45f, 0.85f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
 
-	m_Renderer.Text("<-", { 0.65f, 1.45f - m_GameLogicData.MenuSelectedIndex * 0.2f}, { 1.0f,0.0f,0.0f,1.0f }, 0.005);
+	m_Renderer.Text("<-", { 0.65f, 1.45f - m_GameLogicData.MenuSelectedIndex * 0.2f}, { 0.5f,0.5f,0.5f,1.0f }, 0.005);
 }
 
 
 void Game::UpdateHighScores()
 {
+	m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.2f,0.3f,0.4f,0.5f });
 	if (Input::IsKeyJustPressed(GAME_KEY_BACKSPACE))
 		m_State = GameStates::MENU;
 
-	m_Renderer.Text("High scores:", { -0.45f, 1.75f }, { 1.0f,0.0f,0.0f,1.0f }, 0.005f);
+	m_Renderer.Text("High scores:", { -0.45f, 1.75f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.005f);
 	for (int i = 0; i < 10; i++)
 	{
 		m_Renderer.Text(std::to_string(i+1) + ": " + std::to_string(m_GameLogicData.HighScores[i]), 
-			{-0.45f, 1.45f - i * 0.2f}, {1.0f,0.0f,0.0f,1.0f}, 0.004f);
+			{-0.45f, 1.45f - i * 0.2f}, { 0.7529f,0.7529f,0.7529f,1.0f}, 0.004f);
 	}
 }
 
 void Game::Resize(uint32_t width, uint32_t height)
 {
 	m_Renderer.OnResize(width, height);
+	m_GameData.Camera.OnResize((float)width, (float)height);
 }
 
 void Game::Move(int dir)
@@ -266,6 +277,9 @@ void Game::CheckCollision()
 		CheckFullLines(index, offset);
 		if (index != -1)
 		{
+			SoundEngine::PlaySound("res/audio/collision.wav", false);
+			m_GameData.ShakeTime = 0.1f;
+			m_Renderer.SetShaking(true);
 			RemoveFullLines();
 			PullDownRest(index, offset);
 		}

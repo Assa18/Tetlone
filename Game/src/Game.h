@@ -32,6 +32,8 @@ struct GameData
 	std::vector<GameTile> MovingTiles;
 	std::vector<GameTile> NextTiles;
 
+	float ShakeTime = 0.0f;
+
 	void Update()
 	{
 		Camera.OnUpdate(0.01f);

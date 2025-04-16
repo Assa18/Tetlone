@@ -1,5 +1,5 @@
 #include "GameRenderer.h"
-
+#include "Game.h"
 #include <iostream>
 
 #include <ft2build.h>
@@ -117,10 +117,11 @@ void GameRenderer::BeginRender()
 
 void GameRenderer::Draw(const Camera2D& cam)
 {
+	glEnable(GL_BLEND);
 	m_FrameBuffer.Bind();
 	m_Shader.Bind();
 
-	glClearColor(0.5, 0.5, 0.5, 1.0);
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	GLsizeiptr size = (uint8_t*)s_RenderData.vertexIndexPtr - (uint8_t*)s_RenderData.vertices;
@@ -135,7 +136,10 @@ void GameRenderer::Draw(const Camera2D& cam)
 	m_FrameBuffer.Unbind();
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	glDisable(GL_BLEND);
 	m_ScreenShader.Bind();
+	m_ScreenShader.SetBool("shake", m_IsShaking);
+	m_ScreenShader.SetFloat("time", Game::GetWindow()->GetTime());
 	m_FrameBuffer.BindVAO();
 	glBindTextureUnit(16, m_FrameBuffer.GetTextureID());
 	glDrawArrays(GL_TRIANGLES, 0, 6);

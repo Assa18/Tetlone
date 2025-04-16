@@ -27,6 +27,9 @@
     <ClInclude Include="dependencies\include\stb_image\stb_image.h">
       <Filter>dependencies\include\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Application\SoundEngine.h">
+      <Filter>src\Application</Filter>
+    </ClInclude>
     <ClInclude Include="src\Application\Window.h">
       <Filter>src\Application</Filter>
     </ClInclude>

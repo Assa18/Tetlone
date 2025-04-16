@@ -21,6 +21,8 @@ public:
 	virtual void SetClosed(bool value) = 0;
 	virtual void Resize(int32_t width, int32_t height) = 0;
 
+	virtual float GetTime() = 0;
+
 	virtual void* GetNativeWindow() = 0;
 protected:
 	uint32_t m_Width, m_Height;

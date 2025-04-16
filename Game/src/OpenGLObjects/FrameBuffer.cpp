@@ -38,7 +38,7 @@ void FrameBuffer::Create(uint32_t width, uint32_t height)
 
     glGenTextures(1, &m_TextureID);
     glBindTexture(GL_TEXTURE_2D, m_TextureID);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_TextureID, 0);
@@ -59,7 +59,7 @@ void FrameBuffer::Resize(int32_t width, int32_t height)
 {
     Unbind();
     glDeleteFramebuffers(1, &m_ID);
-
+    glDeleteTextures(1, &m_TextureID);
 
     // framebuffer initialization code
     glGenFramebuffers(1, &m_ID);
@@ -67,7 +67,7 @@ void FrameBuffer::Resize(int32_t width, int32_t height)
 
     glGenTextures(1, &m_TextureID);
     glBindTexture(GL_TEXTURE_2D, m_TextureID);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_TextureID, 0);

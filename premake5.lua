@@ -30,7 +30,8 @@ project "Game"
     {
         "glfw3.lib",
         "opengl32.lib",
-        "freetype.lib"
+        "freetype.lib",
+        "irrKlang.lib"
     }
 
     includedirs

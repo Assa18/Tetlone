@@ -58,6 +58,7 @@ public:
 	void Quad(const glm::vec2& pos, const glm::vec2& size, int texId);
 	void Text(const std::string& text, const glm::vec2& pos, const glm::vec4& color, float height);
 
+	inline void SetShaking(bool value) { m_IsShaking = value; }
 private:
 	void LoadFontMap(const char* path);
 
@@ -70,4 +71,6 @@ private:
 	std::map<std::string, Texture> m_Textures;
 	std::map<char, Character> m_Characters;
 	uint32_t m_FontTextureAtlasID;
+
+	bool m_IsShaking = false;
 };

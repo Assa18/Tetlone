@@ -26,6 +26,10 @@ public:
 	bool IsClosed() override;
 	void SetClosed(bool value) override;
 	void Resize(int32_t width, int32_t height) override;
+	float GetTime() override
+	{
+		return glfwGetTime();
+	}
 
 	void* GetNativeWindow() override;
 private:
