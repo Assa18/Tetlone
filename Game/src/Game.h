@@ -62,6 +62,7 @@ private:
 	void UpdatePlay();
 	void UpdateMenu();
 	void UpdateHighScores();
+	void UpdateAbout();
 
 	void CheckCollision();
 	void SpawnNext();

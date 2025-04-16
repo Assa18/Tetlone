@@ -95,6 +95,7 @@ void Game::Run()
 		case GameStates::SETTINGS:
 			break;
 		case GameStates::ABOUT:
+			UpdateAbout();
 			break;
 		default:
 			break;
@@ -129,7 +130,7 @@ void Game::UpdatePlay()
 	if (Input::IsKeyJustPressed(GAME_KEY_S) || Input::IsKeyJustPressed(GAME_KEY_DOWN))
 		m_Speed += 4.0f;
 
-	if (Input::IsKeyJustPressed(GAME_KEY_UP) && m_Speed >= 4.0f)
+	if ((Input::IsKeyJustPressed(GAME_KEY_W) || Input::IsKeyJustPressed(GAME_KEY_UP)) && m_Speed >= 4.0f)
 		m_Speed -= 2.0f;
 
 	if (Input::IsKeyJustPressed(GAME_KEY_R) || Input::IsKeyJustPressed(GAME_KEY_RIGHT_SHIFT))
@@ -195,7 +196,6 @@ void Game::UpdateMenu()
 	m_Renderer.Text("<-", { 0.65f, 1.45f - m_GameLogicData.MenuSelectedIndex * 0.2f}, { 0.5f,0.5f,0.5f,1.0f }, 0.005);
 }
 
-
 void Game::UpdateHighScores()
 {
 	m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.2f,0.3f,0.4f,0.5f });
@@ -208,6 +208,22 @@ void Game::UpdateHighScores()
 		m_Renderer.Text(std::to_string(i+1) + ": " + std::to_string(m_GameLogicData.HighScores[i]), 
 			{-0.45f, 1.45f - i * 0.2f}, { 0.7529f,0.7529f,0.7529f,1.0f}, 0.004f);
 	}
+}
+
+void Game::UpdateAbout()
+{
+	m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.2f,0.3f,0.4f,0.5f });
+	if (Input::IsKeyJustPressed(GAME_KEY_BACKSPACE))
+		m_State = GameStates::MENU;
+
+	m_Renderer.Text("Tetlone:", { -0.45f, 1.75f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.005f);
+	m_Renderer.Text("A fun tetris game!", { -0.65f, 1.25f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
+	m_Renderer.Text("Left: A/Left", { -0.65f, 0.75f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
+	m_Renderer.Text("Right: D/Right", { -0.65f, 0.55f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
+	m_Renderer.Text("Faster: S/Down", { -0.65f, 0.35f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
+	m_Renderer.Text("Slower: W/Up", { -0.65f, 0.15f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
+	m_Renderer.Text("Rotate: R/Shift", { -0.65f, -0.05f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
+	m_Renderer.Text("Created by Assa", { -0.65f, -0.25f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.002f);
 }
 
 void Game::Resize(uint32_t width, uint32_t height)
