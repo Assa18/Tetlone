@@ -101,8 +101,29 @@ void GameRenderer::Initialize()
 
 	s_RenderData.textureSlots[0] = s_RenderData.whiteTexture;
 
+
 	m_ScreenShader.Bind();
 	m_ScreenShader.SetInt("screenTexture", 16);
+	float offsetSgader = 1.0f / 300.0f;
+	float offsets[9][2] = {
+	{ -offsetSgader, offsetSgader }, // top-left
+	{ 0.0f, offsetSgader }, // top-center
+	{ offsetSgader, offsetSgader }, // top-right
+	{ -offsetSgader, 0.0f }, // center-left
+	{ 0.0f, 0.0f }, // center-center
+	{ offsetSgader, 0.0f }, // center-right
+	{ -offsetSgader, -offsetSgader }, // bottom-left
+	{ 0.0f, -offsetSgader }, // bottom-center
+	{ offsetSgader, -offsetSgader } // bottom-right
+	};
+	glUniform2fv(glGetUniformLocation(m_ScreenShader.GetId(), "offsets"), 9, (float*)offsets);
+	
+	float edge_kernel[9] = {
+		-1, -1, -1,
+		-1,  8, -1,
+		-1, -1, -1
+	};
+	glUniform1fv(glGetUniformLocation(m_ScreenShader.GetId(), "edge_kernel"), 9, edge_kernel);
 
 	m_Shader.Bind();
 }
@@ -139,6 +160,7 @@ void GameRenderer::Draw(const Camera2D& cam)
 	glDisable(GL_BLEND);
 	m_ScreenShader.Bind();
 	m_ScreenShader.SetBool("shake", m_IsShaking);
+	m_ScreenShader.SetInt("colorMode", m_ColorMode);
 	m_ScreenShader.SetFloat("time", Game::GetWindow()->GetTime());
 	m_FrameBuffer.BindVAO();
 	glBindTextureUnit(16, m_FrameBuffer.GetTextureID());

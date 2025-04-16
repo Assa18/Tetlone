@@ -282,6 +282,11 @@ void Game::CheckCollision()
 			m_Renderer.SetShaking(true);
 			RemoveFullLines();
 			PullDownRest(index, offset);
+			if (m_GameLogicData.FullLineCount >= 1)
+			{
+				m_Renderer.SetColorMode(rand() % 3);
+				m_GameLogicData.FullLineCount = 0;
+			}
 		}
 		
 		m_Speed = 2.0f;
@@ -291,6 +296,7 @@ void Game::CheckCollision()
 			if (m_GameData.Tiles.find(std::make_pair<int, int>((float)i, 19)) != m_GameData.Tiles.end())
 			{
 				m_GameData.Tiles.clear();
+				m_Renderer.SetColorMode(0);
 				m_State = GameStates::MENU;
 				AddPointsToHighScores(m_GameLogicData.Points);
 				m_GameLogicData.Points = 0;
@@ -355,6 +361,7 @@ void Game::RemoveFullLines()
 				m_GameData.Tiles.erase(std::make_pair<int, int>((float)j, (float)i));
 			}
 			m_GameLogicData.Points += 5;
+			m_GameLogicData.FullLineCount++;
 		}
 	}
 }

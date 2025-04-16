@@ -21,6 +21,7 @@ struct GameLogicData
 	int Points = 0;
 	int MenuSelectedIndex = 0;
 	int HighScores[10] = { 0 };
+	int FullLineCount = 0;
 };
 
 struct GameData

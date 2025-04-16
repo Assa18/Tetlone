@@ -59,6 +59,7 @@ public:
 	void Text(const std::string& text, const glm::vec2& pos, const glm::vec4& color, float height);
 
 	inline void SetShaking(bool value) { m_IsShaking = value; }
+	inline void SetColorMode(int value) { m_ColorMode = value; }
 private:
 	void LoadFontMap(const char* path);
 
@@ -73,4 +74,5 @@ private:
 	uint32_t m_FontTextureAtlasID;
 
 	bool m_IsShaking = false;
+	int m_ColorMode = 0;
 };
