@@ -4,7 +4,7 @@
 #include <iostream>
 
 Texture::Texture()
-	:m_ID(0)
+	:m_ID(0), m_Index(0)
 {
 }
 

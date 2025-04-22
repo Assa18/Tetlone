@@ -93,6 +93,7 @@ void Game::Run()
 			UpdateHighScores();
 			break;
 		case GameStates::SETTINGS:
+			UpdateSettings();
 			break;
 		case GameStates::ABOUT:
 			UpdateAbout();
@@ -226,6 +227,23 @@ void Game::UpdateAbout()
 	m_Renderer.Text("Created by Assa", { -0.65f, -0.25f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.002f);
 }
 
+void Game::UpdateSettings()
+{
+	m_Renderer.Quad({ -2.0f, 0.0f }, { 5.0f,4.0f }, { 0.2f,0.3f,0.4f,0.5f });
+	if (Input::IsKeyJustPressed(GAME_KEY_BACKSPACE))
+		m_State = GameStates::MENU;
+
+	if (Input::IsKeyJustPressed(GAME_KEY_ENTER))
+		m_GameLogicData.IsSoundEnabled = !m_GameLogicData.IsSoundEnabled;
+
+	m_Renderer.Text("Tetlone:", { -0.45f, 1.75f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.005f);
+	m_Renderer.Text("Sound:", { -0.65f, 1.25f }, { 0.7529f,0.7529f,0.7529f,1.0f }, 0.004f);
+	if (m_GameLogicData.IsSoundEnabled)
+		m_Renderer.Text("enabled", { 0.0f, 1.25f }, { 0.0f,1.0f,0.0f,1.0f }, 0.004f);
+	else
+		m_Renderer.Text("disabled", { 0.0f, 1.25f }, { 1.0f,0.0f,0.0f,1.0f }, 0.004f);
+}
+
 void Game::Resize(uint32_t width, uint32_t height)
 {
 	m_Renderer.OnResize(width, height);
@@ -293,7 +311,8 @@ void Game::CheckCollision()
 		CheckFullLines(index, offset);
 		if (index != -1)
 		{
-			SoundEngine::PlaySound("res/audio/collision.wav", false);
+			if (m_GameLogicData.IsSoundEnabled)
+				SoundEngine::PlaySound("res/audio/collision.wav", false);
 			m_GameData.ShakeTime = 0.1f;
 			m_Renderer.SetShaking(true);
 			RemoveFullLines();

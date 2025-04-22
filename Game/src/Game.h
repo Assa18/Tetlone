@@ -22,6 +22,7 @@ struct GameLogicData
 	int MenuSelectedIndex = 0;
 	int HighScores[10] = { 0 };
 	int FullLineCount = 0;
+	bool IsSoundEnabled = true;
 };
 
 struct GameData
@@ -63,6 +64,7 @@ private:
 	void UpdateMenu();
 	void UpdateHighScores();
 	void UpdateAbout();
+	void UpdateSettings();
 
 	void CheckCollision();
 	void SpawnNext();

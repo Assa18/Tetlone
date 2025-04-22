@@ -5,8 +5,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <iostream>
-
 Camera2D::Camera2D()
 	:Camera()
 {
@@ -30,14 +28,12 @@ void Camera2D::OnUpdate(float deltaTime)
 	{
 		m_ZoomLevel += 0.01;
 		m_ProjMatrix = glm::ortho(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
-		std::cout << m_ZoomLevel << '\n';
 	}
 
 	if (Input::IsKeyPressed(GAME_KEY_DOWN))
 	{
 		m_ZoomLevel -= 0.01;
 		m_ProjMatrix = glm::ortho(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
-		std::cout << m_ZoomLevel << '\n';
 	}
 
 	m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);

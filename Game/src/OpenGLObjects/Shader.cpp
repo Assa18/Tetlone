@@ -1,5 +1,4 @@
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 #include "Shader.h"
 
@@ -94,7 +93,6 @@ bool Shader::CompileShader(uint32_t& program)
 		char infoLog[512];
 		glGetShaderInfoLog(program, 512, nullptr, infoLog);
 		std::cout << "ERROR: " << infoLog << "\n";
-		glfwTerminate();
 		return false;
 	}
 	return true;
