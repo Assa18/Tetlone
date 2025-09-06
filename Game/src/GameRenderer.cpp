@@ -9,14 +9,14 @@ static RenderData s_RenderData;
 
 GameRenderer::GameRenderer()
 {
-	s_RenderData.maxTileCount = 1000;
+	m_FontTextureAtlasID = 0;
+	s_RenderData.maxTileCount = 1500;
 	s_RenderData.maxVertexCount = s_RenderData.maxTileCount * 4;
 	s_RenderData.maxIndexCount = s_RenderData.maxTileCount * 6;
 }
 
 GameRenderer::~GameRenderer()
 {
-
 }
 
 void GameRenderer::Initialize()
@@ -225,7 +225,7 @@ void GameRenderer::Quad(const glm::vec2& pos, const glm::vec2& size, int texId)
 	s_RenderData.vertexIndexPtr->pos = glm::vec3(posReal.x, posReal.y + size.y, 0.0f);
 	s_RenderData.vertexIndexPtr->color = whiteColor;
 	s_RenderData.vertexIndexPtr->texCoords = glm::vec2(0.0f, 1.0f);
-	s_RenderData.vertexIndexPtr->texIndex = texId;
+	s_RenderData.vertexIndexPtr->texIndex = (float)texId;
 	s_RenderData.vertexIndexPtr++;
 
 	s_RenderData.indicesCount += 6;
@@ -233,10 +233,12 @@ void GameRenderer::Quad(const glm::vec2& pos, const glm::vec2& size, int texId)
 
 void GameRenderer::Destroy()
 {
-	glDeleteBuffers(1, &s_RenderData.VBO);
-	glDeleteBuffers(1, &s_RenderData.EBO);
-	glDeleteVertexArrays(1, &s_RenderData.VAO);
+	glDeleteVertexArrays(1, &(s_RenderData.VAO));
+	glDeleteBuffers(1, &(s_RenderData.VBO));
+	glDeleteBuffers(1, &(s_RenderData.EBO));
+	glDeleteTextures(1, &(s_RenderData.whiteTexture));
 
+	delete[] s_RenderData.indices;
 	delete[] s_RenderData.vertices;
 }
 

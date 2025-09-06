@@ -14,7 +14,7 @@ struct GameTile
 	}
 
 	GameTile(int type, int32_t x, int32_t y, const glm::vec4& color)
-		:type(type), X(x), Y(y), Color(color)
+		:type(type), X((float)x), Y((float)y), Color(color)
 	{
 		rotState = 0;
 	}
@@ -29,7 +29,7 @@ struct GameTile
 		int index = 0;
 		rotState = (rotState + 1) % 4;
 		int initX = positions[0].first;
-		int initY = std::round(positions[0].second);
+		int initY = (int)std::round(positions[0].second);
 		for (int i = 0; i < 4; i++)
 		{
 			positions[i].first = initX + transformations[type * 32 + rotState * 8 + index];

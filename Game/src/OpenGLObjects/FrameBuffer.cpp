@@ -53,15 +53,15 @@ void FrameBuffer::Create(uint32_t width, uint32_t height)
 FrameBuffer::~FrameBuffer()
 {
     glDeleteBuffers(1, &m_ID);
+    glDeleteTextures(1, &m_TextureID);
 }
 
 void FrameBuffer::Resize(int32_t width, int32_t height)
 {
     Unbind();
-    glDeleteFramebuffers(1, &m_ID);
     glDeleteTextures(1, &m_TextureID);
+    glDeleteFramebuffers(1, &m_ID);
 
-    // framebuffer initialization code
     glGenFramebuffers(1, &m_ID);
     glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
 

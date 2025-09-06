@@ -22,7 +22,7 @@ struct GameLogicData
 	int MenuSelectedIndex = 0;
 	int HighScores[10] = { 0 };
 	int FullLineCount = 0;
-	bool IsSoundEnabled = true;
+	bool IsSoundEnabled = false;
 };
 
 struct GameData
